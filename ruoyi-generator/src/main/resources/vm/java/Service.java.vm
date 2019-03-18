@@ -1,0 +1,19 @@
+package ${package}.service.impl;
+
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${package}.domain.${className};
+import com.ruoyi.common.core.text.Convert;
+
+/**
+ * ${tableComment} 服务层实现
+ * 
+ * @author ${author}
+ * @date ${datetime}
+ */
+@Service
+public class ${className}Service extends BaseService<${className}Mapper,${className}>
+{
+
+}
