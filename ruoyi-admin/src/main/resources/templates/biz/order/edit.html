@@ -1,0 +1,189 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+<div class="form-content">
+	<form class="form-horizontal" id="form-user-edit" th:object="${order}">
+		<input id="orderId" name="id"  type="hidden"  th:field="*{id}" />
+		<h4 class="form-header h4">基本信息</h4>
+		<div class="row">
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label"><span style="color: red; ">*</span>订单日期：</label>
+					<div class="col-sm-8">
+						<input name="orderDate" autocomplete="off" placeholder="请输入订单日期" class="form-control" type="text" maxlength="30" th:field="*{orderDate}" required>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="form-group">
+					<label class="col-sm-4 control-label"><span style="color: red; ">*</span>客户名称：</label>
+					<div class="col-sm-8">
+						<input name="customer" autocomplete="off" placeholder="请输入客户名称" class="form-control" type="text" maxlength="30" th:field="*{customer}" required>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label class="col-xs-2 control-label">花费时间信息：</label>
+					<div class="col-xs-10">
+						<textarea name="timeCost" autocomplete="off" maxlength="500" class="form-control" rows="3">[[*{timeCost}]]</textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="form-group">
+					<label class="col-xs-2 control-label">备注：</label>
+					<div class="col-xs-10">
+						<textarea name="remark" autocomplete="off" maxlength="500" class="form-control" rows="3">[[*{remark}]]</textarea>
+					</div>
+				</div>
+			</div>
+		</div>
+		<h4 class="form-header h4">规格信息</h4>
+		<div class="row">
+			<div class="col-sm-12 select-table table-striped">
+				<table id="detail-table" data-mobile-responsive="true"></table>
+			</div>
+		</div>
+	</form>
+</div>
+    <div th:include="include::footer"></div>
+    <script th:inline="javascript">
+		var prefix = ctx + "biz/order";
+		$("#form-order-edit").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/edit", $('#form-order-edit').serialize());
+	        }
+	    }
+
+
+        var removeFlag = [[${@permission.hasPermi('biz:order:remove')}]];
+		var prefix1 = ctx + "biz/orderDetail";
+        // var prefix2 = ctx + "biz/orderBm";
+		$(function() {
+			var options = {
+			    id:"detail-table",
+				url: prefix1 + "/list?orderId="+$('#orderId').val(),
+                removeUrl: prefix1 + "/remove",
+				modalName: "规格详情",
+                showSearch:false,
+                search:false,
+                showRefresh:false,
+                showColumns:false,
+                showToggle:false,
+                showExport:false,
+				columns: [{
+					checkbox: true
+				},
+                {
+                    field : 'category',
+                    title : '类别',
+                    sortable: true
+                },
+                {
+                    field : 'standard',
+                    title : '规格',
+                    sortable: true
+                },
+                {
+                    field : 'quantity',
+                    title : '数量',
+                    sortable: true
+                },
+                {
+                    field : 'weight',
+                    title : '重量',
+                    sortable: true
+                },
+                {
+                    field : 'price',
+                    title : '单价',
+                    sortable: true
+                },
+                {
+                    field : 'remarks',
+                    title : '备注',
+                    sortable: true
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+			};
+			$.table.init(options);
+
+
+            // var options2 = {
+            //     id:"bm-table",
+            //     url: prefix2 + "/list?orderId="+$('#orderId').val(),
+            //     removeUrl: prefix2 + "/remove",
+            //     modalName: "吹膜信息",
+            //     showSearch:false,
+            //     search:false,
+            //     showRefresh:false,
+            //     showColumns:false,
+            //     showToggle:false,
+            //     showExport:false,
+            //     columns: [{
+            //         checkbox: true
+            //     },
+            //     {
+            //         field : 'quantity',
+            //         title : '数量',
+            //         sortable: true
+            //     },
+            //     {
+            //         field : 'weight',
+            //         title : '重量',
+            //         sortable: true
+            //     },
+            //     {
+            //         field : 'length',
+            //         title : '长度',
+            //         sortable: true
+            //     },
+            //     {
+            //         field : 'width',
+            //         title : '宽度',
+            //         sortable: true
+            //     },
+            //     {
+            //         field : 'thickness',
+            //         title : '厚度',
+            //         sortable: true
+            //     },
+            //     {
+            //         title: '操作',
+            //         align: 'center',
+            //         formatter: function(value, row, index) {
+            //             var actions = [];
+            //             actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+            //             return actions.join('');
+            //         }
+            //     }]
+            // };
+            // $.table.init(options2);
+		});
+	</script>
+</body>
+</html>

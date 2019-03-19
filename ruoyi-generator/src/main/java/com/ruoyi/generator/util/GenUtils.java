@@ -90,7 +90,7 @@ public class GenUtils
         templates.add("vm/java/domain.java.vm");
         templates.add("vm/java/Mapper.java.vm");
         templates.add("vm/java/Service.java.vm");
-        templates.add("vm/java/ServiceImpl.java.vm");
+//        templates.add("vm/java/ServiceImpl.java.vm");
         templates.add("vm/java/Controller.java.vm");
         templates.add("vm/xml/Mapper.xml.vm");
         templates.add("vm/html/list.html.vm");
@@ -139,7 +139,7 @@ public class GenUtils
 
         if (template.contains("Service.java.vm"))
         {
-            return javaPath + "service" + "/" + "I" + className + "Service.java";
+            return javaPath + "service" + "/" + className + "Service.java";
         }
 
         if (template.contains("ServiceImpl.java.vm"))

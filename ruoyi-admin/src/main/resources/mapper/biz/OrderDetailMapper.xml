@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.OrderDetailMapper">
+    
+    <resultMap type="OrderDetail" id="OrderDetailResult">
+        <result property="id"    column="id"    />
+        <result property="orderId"    column="order_id"    />
+        <result property="category"    column="category"    />
+        <result property="standard"    column="standard"    />
+        <result property="quantity"    column="quantity"    />
+        <result property="weight"    column="weight"    />
+        <result property="price"    column="price"    />
+        <result property="remark"    column="remark"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="updateBy"    column="update_by"    />
+    </resultMap>
+	
+	<sql id="selectOrderDetailVo">
+        select id, order_id, category, standard, quantity, weight, price, remark, create_time, create_by, update_time, update_by from biz_order_detail
+    </sql>
+	
+    <select id="selectEntityList" parameterType="OrderDetail" resultMap="OrderDetailResult">
+        <include refid="selectOrderDetailVo"/>
+        <where>  
+            <if test="id != null "> and id = #{id}</if>
+             <if test="orderId != null "> and order_id = #{orderId}</if>
+             <if test="category != null  and category != '' "> and category = #{category}</if>
+             <if test="standard != null  and standard != '' "> and standard = #{standard}</if>
+             <if test="quantity != null "> and quantity = #{quantity}</if>
+             <if test="weight != null "> and weight = #{weight}</if>
+             <if test="price != null "> and price = #{price}</if>
+             <if test="remarks != null  and remarks != '' "> and remarks = #{remarks}</if>
+             <if test="createTime != null "> and create_time = #{createTime}</if>
+             <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+             <if test="updateTime != null "> and update_time = #{updateTime}</if>
+             <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+         </where>
+    </select>
+    
+    <select id="selectOrderDetailById" parameterType="Long" resultMap="OrderDetailResult">
+        <include refid="selectOrderDetailVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertOrderDetail" parameterType="OrderDetail">
+        insert into biz_order_detail
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">id,</if>
+			<if test="orderId != null  ">order_id,</if>
+			<if test="category != null  and category != ''  ">category,</if>
+			<if test="standard != null  and standard != ''  ">standard,</if>
+			<if test="quantity != null  ">quantity,</if>
+			<if test="weight != null  ">weight,</if>
+			<if test="price != null  ">price,</if>
+			<if test="remarks != null  and remarks != ''  ">remarks,</if>
+			<if test="createTime != null  ">create_time,</if>
+			<if test="createBy != null  and createBy != ''  ">create_by,</if>
+			<if test="updateTime != null  ">update_time,</if>
+			<if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null  ">#{id},</if>
+			<if test="orderId != null  ">#{orderId},</if>
+			<if test="category != null  and category != ''  ">#{category},</if>
+			<if test="standard != null  and standard != ''  ">#{standard},</if>
+			<if test="quantity != null  ">#{quantity},</if>
+			<if test="weight != null  ">#{weight},</if>
+			<if test="price != null  ">#{price},</if>
+			<if test="remarks != null  and remarks != ''  ">#{remarks},</if>
+			<if test="createTime != null  ">#{createTime},</if>
+			<if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+			<if test="updateTime != null  ">#{updateTime},</if>
+			<if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+         </trim>
+    </insert>
+	 
+    <update id="updateOrderDetail" parameterType="OrderDetail">
+        update biz_order_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="orderId != null  ">order_id = #{orderId},</if>
+            <if test="category != null  and category != ''  ">category = #{category},</if>
+            <if test="standard != null  and standard != ''  ">standard = #{standard},</if>
+            <if test="quantity != null  ">quantity = #{quantity},</if>
+            <if test="weight != null  ">weight = #{weight},</if>
+            <if test="price != null  ">price = #{price},</if>
+            <if test="remarks != null  and remarks != ''  ">remarks = #{remarks},</if>
+            <if test="createTime != null  ">create_time = #{createTime},</if>
+            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+            <if test="updateTime != null  ">update_time = #{updateTime},</if>
+            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+	<delete id="deleteOrderDetailById" parameterType="Long">
+        delete from biz_order_detail where id = #{id}
+    </delete>
+	
+    <delete id="deleteOrderDetailByIds" parameterType="String">
+        delete from biz_order_detail where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    
+</mapper>

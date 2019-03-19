@@ -1,10 +1,12 @@
-package ${package}.service.impl;
+package ${package}.service;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ${package}.domain.${className};
 import com.ruoyi.common.core.text.Convert;
+import ${package}.mapper.${className}Mapper;
+import com.ruoyi.common.core.service.BaseService;
 
 /**
  * ${tableComment} 服务层实现

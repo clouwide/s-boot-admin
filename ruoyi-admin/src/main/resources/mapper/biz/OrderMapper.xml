@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.biz.mapper.OrderMapper">
+    
+	<sql id="selectOrderVo">
+        select id, order_date, customer, standards, time_cost, remark, create_time, create_by, update_time, update_by from biz_order
+    </sql>
+	
+    <select id="selectEntityList" parameterType="Order" resultType="Order">
+        <include refid="selectOrderVo"/>
+        <where>  
+             <if test="customer != null  and customer != '' "> and customer like CONCAT(#{customer},'%') </if>
+             <if test="standards != null  and standards != '' "> and standards like CONCAT('%',#{standards},'%')</if>
+         </where>
+    </select>
+    
+
+</mapper>

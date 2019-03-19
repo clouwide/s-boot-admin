@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html  lang="zh" xmlns:th="http://www.thymeleaf.org">
+<meta charset="utf-8">
+<head th:include="include :: header"></head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-order-add">
+			<label class="col-sm-3 control-label">订单日期：</label>
+			<div class="col-sm-9">
+				<div class="form-group">
+					<div class="input-group date"> <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+
+						<input type="text" class="form-control" value="2018-04-20">
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">客户：</label>
+				<div class="col-sm-8">
+					<input id="customer" name="customer" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">	
+				<label class="col-sm-3 control-label">规格：</label>
+				<div class="col-sm-8">
+					<input id="standards" name="standards" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">入库：</label>
+				<div class="col-sm-8">
+					<input id="inStore" name="inStore" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">出库：</label>
+				<div class="col-sm-8">
+					<input id="outStore" name="outStore" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">用时：</label>
+				<div class="col-sm-8">
+					<input id="timeCost" name="timeCost" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">备注：</label>
+				<div class="col-sm-8">
+					<input id="remarks" name="remarks" class="form-control" type="text">
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-3 control-label">：</label>
+				<div class="col-sm-8">
+					<input id="modifier" name="modifier" class="form-control" type="text">
+				</div>
+			</div>
+		</form>
+	</div>
+    <div th:include="include::footer"></div>
+    <script type="text/javascript">
+		var prefix = ctx + "biz/order"
+		$("#form-order-add").validate({
+			rules:{
+				xxxx:{
+					required:true,
+				},
+			},
+			focusCleanup: true
+		});
+		
+		function submitHandler() {
+	        if ($.validate.form()) {
+	            $.operate.save(prefix + "/add", $('#form-order-add').serialize());
+	        }
+	    }
+	</script>
+</body>
+</html>

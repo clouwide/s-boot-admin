@@ -1,8 +1,8 @@
 package com.ruoyi.common.core.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
+
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ruoyi.common.core.mapper.BaseMapper;
 import com.ruoyi.common.core.text.Convert;
 
@@ -33,7 +33,7 @@ public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M,T> {
      * @return 集合
      */
     public List<T> selectList(T t){
-        return baseMapper.selectList(new QueryWrapper(t));
+        return baseMapper.selectEntityList(t);
     }
 
     /**
