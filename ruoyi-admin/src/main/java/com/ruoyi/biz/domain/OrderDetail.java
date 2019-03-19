@@ -31,7 +31,5 @@ public class OrderDetail extends BaseEntity
 	private Double weight;
 	/** 单价 */
 	private Double price;
-	/** 备注 */
-	private String remarks;
 
 }

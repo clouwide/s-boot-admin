@@ -10,7 +10,9 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.domain.SysUser;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
@@ -39,7 +42,7 @@ public class OrderDetailController extends BaseController
 	@Autowired
 	private OrderDetailService orderDetailService;
 	
-	@RequiresPermissions("biz:orderDetail:view")
+	@RequiresPermissions("biz:order:view")
 	@GetMapping()
 	public String orderDetail()
 	{
@@ -49,7 +52,7 @@ public class OrderDetailController extends BaseController
 	/**
 	 * 查询生产单详情列表
 	 */
-	@RequiresPermissions("biz:orderDetail:list")
+	@RequiresPermissions("biz:order:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(OrderDetail orderDetail)
@@ -66,7 +69,7 @@ public class OrderDetailController extends BaseController
 	/**
 	 * 导出生产单详情列表
 	 */
-	@RequiresPermissions("biz:orderDetail:export")
+	@RequiresPermissions("biz:order:export")
     @PostMapping("/export")
     @ResponseBody
     public AjaxResult export(OrderDetail orderDetail)
@@ -80,20 +83,24 @@ public class OrderDetailController extends BaseController
 	 * 新增生产单详情
 	 */
 	@GetMapping("/add")
-	public String add()
+	public String add(OrderDetail orderDetail,ModelMap modelMap)
 	{
+		modelMap.put("orderId",orderDetail.getOrderId());
 	    return prefix + "/add";
 	}
 	
 	/**
 	 * 新增保存生产单详情
 	 */
-	@RequiresPermissions("biz:orderDetail:add")
+	@RequiresPermissions("biz:order:add")
 	@Log(title = "生产单详情", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(OrderDetail orderDetail)
-	{		
+	{
+		SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+		orderDetail.setCreateTime(new Date());
+		orderDetail.setCreateBy(user.getUserName());
 		return toAjax(orderDetailService.insert(orderDetail));
 	}
 
@@ -111,19 +118,22 @@ public class OrderDetailController extends BaseController
 	/**
 	 * 修改保存生产单详情
 	 */
-	@RequiresPermissions("biz:orderDetail:edit")
+	@RequiresPermissions("biz:order:edit")
 	@Log(title = "生产单详情", businessType = BusinessType.UPDATE)
 	@PostMapping("/edit")
 	@ResponseBody
 	public AjaxResult editSave(OrderDetail orderDetail)
-	{		
+	{
+		SysUser user = (SysUser) SecurityUtils.getSubject().getPrincipal();
+		orderDetail.setUpdateTime(new Date());
+		orderDetail.setUpdateBy(user.getUserName());
 		return toAjax(orderDetailService.update(orderDetail));
 	}
 	
 	/**
 	 * 删除生产单详情
 	 */
-	@RequiresPermissions("biz:orderDetail:remove")
+	@RequiresPermissions("biz:order:remove")
 	@Log(title = "生产单详情", businessType = BusinessType.DELETE)
 	@PostMapping( "/remove")
 	@ResponseBody
