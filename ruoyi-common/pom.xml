@@ -33,8 +33,22 @@
 		<dependency>
 			<groupId>com.github.pagehelper</groupId>
 			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>jsqlparser</artifactId>
+					<groupId>com.github.jsqlparser</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mybatis</artifactId>
+					<groupId>org.mybatis</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>mybatis-spring</artifactId>
+					<groupId>org.mybatis</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-    
+
         <!--常用工具类 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -86,12 +100,17 @@
 		<dependency>
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
-			<version>3.1.0</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>20.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
 		</dependency>
 
 

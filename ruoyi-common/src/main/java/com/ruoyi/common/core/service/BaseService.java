@@ -8,6 +8,12 @@ import com.ruoyi.common.core.text.Convert;
 
 import java.util.List;
 
+/**
+ * 基础service
+ * @param <M>
+ * @param <T>
+ * @author cloudWide
+ */
 public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M,T> {
 
     /**
