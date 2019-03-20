@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select id, order_id, category, standard, quantity, weight, price, remark, create_time, create_by, update_time, update_by from biz_order_detail
     </sql>
 	
-    <select id="selectEntityList" parameterType="OrderDetail" resultType="OrderDetail">
+    <select id="selectEntityList" parameterType="com.ruoyi.biz.domain.OrderDetail" resultType="com.ruoyi.biz.domain.OrderDetail">
         <include refid="selectOrderDetailVo"/>
         <where>  
             <if test="id != null "> and id = #{id}</if>
