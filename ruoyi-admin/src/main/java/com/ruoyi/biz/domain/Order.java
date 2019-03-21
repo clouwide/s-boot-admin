@@ -2,6 +2,8 @@ package com.ruoyi.biz.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ruoyi.RuoYiApplication;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.util.Date;
@@ -20,6 +22,7 @@ public class Order extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;
 	/**  */
+	@JsonSerialize(using = RuoYiApplication.Long2StringSerializer.class)
 	private Long id;
 	/**  */
 	@JsonFormat(pattern = "yyyy-MM-dd")

@@ -1,8 +1,18 @@
 package com.ruoyi.biz.controller;
 
-import java.util.List;
-import java.util.Objects;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.ruoyi.biz.domain.Order;
+import com.ruoyi.biz.service.OrderDetailService;
+import com.ruoyi.biz.service.OrderService;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.core.controller.BaseController;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.util.ShiroUtils;
 
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,14 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.biz.domain.Order;
-import com.ruoyi.biz.service.OrderService;
-import com.ruoyi.common.core.controller.BaseController;
-import com.ruoyi.common.core.page.TableDataInfo;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.utils.poi.ExcelUtil;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 生产订单 信息操作处理
@@ -35,6 +39,7 @@ public class OrderController extends BaseController {
 
     @Autowired
     private OrderService orderService;
+
 
     @RequiresPermissions("biz:order:view")
     @GetMapping()
@@ -71,9 +76,8 @@ public class OrderController extends BaseController {
      * 新增生产订单
      */
     @GetMapping("/add")
-    public String add(ModelMap modelMap) {
-        modelMap.put("order" , new Order());
-        return prefix + "/edit";
+    public String add() {
+        return prefix + "/add";
     }
 
     /**
@@ -84,6 +88,8 @@ public class OrderController extends BaseController {
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(Order order) {
+        order.setCreateBy(ShiroUtils.getLoginName());
+        order.setCreateTime(new Date());
         return toAjax(orderService.insert(order));
     }
 
@@ -105,12 +111,9 @@ public class OrderController extends BaseController {
     @PostMapping("/edit")
     @ResponseBody
     public AjaxResult editSave(Order order) {
-        if (Objects.isNull(order.getId())) {
-            return toAjax(orderService.insert(order));
-        } else {
-            return toAjax(orderService.update(order));
-
-        }
+        order.setUpdateBy(ShiroUtils.getLoginName());
+        order.setUpdateTime(new Date());
+        return toAjax(orderService.saveOrder(order));
     }
 
     /**

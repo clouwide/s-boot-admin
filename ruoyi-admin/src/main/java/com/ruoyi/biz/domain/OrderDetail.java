@@ -1,6 +1,8 @@
 package com.ruoyi.biz.domain;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ruoyi.RuoYiApplication;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 import lombok.Data;
@@ -18,6 +20,7 @@ public class OrderDetail extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	
 	/**  */
+	@JsonSerialize(using = RuoYiApplication.Long2StringSerializer.class)
 	private Long id;
 	/** 订单id */
 	private Long orderId;

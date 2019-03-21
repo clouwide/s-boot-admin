@@ -138,8 +138,9 @@ public class OrderDetailController extends BaseController
 	@PostMapping( "/remove")
 	@ResponseBody
 	public AjaxResult remove(String ids)
-	{		
-		return toAjax(orderDetailService.deleteByIds(ids));
+	{
+		int count = orderDetailService.deleteByIds(ids);
+		return toAjax(count);
 	}
 	
 }
