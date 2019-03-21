@@ -3,10 +3,12 @@ package com.ruoyi.common.core.service;
 import com.google.common.collect.Lists;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.common.core.mapper.BaseMapper;
 import com.ruoyi.common.core.text.Convert;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 基础service
@@ -14,7 +16,7 @@ import java.util.List;
  * @param <T>
  * @author cloudWide
  */
-public class BaseService<M extends BaseMapper<T>, T> extends ServiceImpl<M,T> {
+public class BaseService<M extends BaseMapper<T>, T extends BaseEntity> extends ServiceImpl<M,T> {
 
     /**
      * 查询信息

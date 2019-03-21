@@ -6,9 +6,11 @@ import com.ruoyi.biz.domain.OrderDetail;
 import com.ruoyi.biz.mapper.OrderMapper;
 import com.ruoyi.common.core.service.BaseService;
 
+import com.ruoyi.framework.util.ShiroUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,12 +27,14 @@ public class OrderService extends BaseService<OrderMapper,Order>
     @Autowired
     private OrderDetailService orderDetailService;
 
-    public int saveOrder(Order order) {
+    public boolean saveOrder(Order order) {
         OrderDetail q = new OrderDetail();
         q.setOrderId(order.getId());
         List<OrderDetail>  list = orderDetailService.list(Wrappers.query(q));
         String standards = list.stream().map(OrderDetail::getStandard).collect(Collectors.joining(","));
         order.setStandards(standards);
-        return   this.update(order);
+        order.setUpdateBy(ShiroUtils.getSysUser().getUserName());
+        order.setUpdateTime(new Date());
+        return   this.updateById(order);
     }
 }

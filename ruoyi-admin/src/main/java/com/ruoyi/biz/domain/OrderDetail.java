@@ -20,10 +20,6 @@ public class OrderDetail extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;
 	
-	/**  */
-	@JsonSerialize(using = RuoYiApplication.Long2StringSerializer.class)
-	@TableId
-	private Long id;
 	/** 订单id */
 	private Long orderId;
 	/** 类别 */

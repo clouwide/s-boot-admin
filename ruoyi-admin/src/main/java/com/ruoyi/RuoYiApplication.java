@@ -1,24 +1,24 @@
 package com.ruoyi;
 
 import com.baomidou.mybatisplus.autoconfigure.SpringBootVFS;
+import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-
+import com.ruoyi.framework.util.ShiroUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.annotation.MapperScan;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import java.io.IOException;
-
 import javax.sql.DataSource;
+import java.util.Date;
 
 /**
  * 启动程序
@@ -48,17 +48,27 @@ public class RuoYiApplication
     }
 
 
-    @Bean
-    @Primary
-    public Jackson2ObjectMapperBuilderCustomizer jackson2ObjectMapperBuilderCustomizer() {
-        Jackson2ObjectMapperBuilderCustomizer cunstomizer = (jackson2ObjectMapperBuilder)->jackson2ObjectMapperBuilder.serializerByType(Long.TYPE, new Long2StringSerializer());
-        return cunstomizer;
-    }
+    public class MyMetaObjectHandler implements MetaObjectHandler {
 
-    public class Long2StringSerializer extends JsonSerializer<Long> {
+        private  final Logger LOGGER = LoggerFactory.getLogger(MyMetaObjectHandler.class);
+
         @Override
-        public void serialize(Long aLong, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-            jsonGenerator.writeString(String.valueOf(aLong));
+        public void insertFill(MetaObject metaObject) {
+            LOGGER.info("start insert fill ....");
+            String userName = ShiroUtils.getSysUser().getUserName();
+            if(StringUtils.isNotEmpty(userName)){
+                this.setInsertFieldValByName("createBy", userName, metaObject);
+            }
+            this.setInsertFieldValByName("createTime", new Date(), metaObject);
+        }
+
+        @Override
+        public void updateFill(MetaObject metaObject) {
+            String userName = ShiroUtils.getSysUser().getUserName();
+            if(StringUtils.isNotEmpty(userName)){
+                this.setUpdateFieldValByName("updateBy", userName, metaObject);
+            }
+            this.setUpdateFieldValByName("updateTime", new Date(), metaObject);
         }
     }
 
