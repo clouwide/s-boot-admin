@@ -1,5 +1,6 @@
 package com.ruoyi.biz.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
@@ -23,6 +24,7 @@ public class Order extends BaseEntity
 	private static final long serialVersionUID = 1L;
 	/**  */
 	@JsonSerialize(using = RuoYiApplication.Long2StringSerializer.class)
+	@TableId
 	private Long id;
 	/**  */
 	@JsonFormat(pattern = "yyyy-MM-dd")
